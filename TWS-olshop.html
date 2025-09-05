@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TWS Mart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js"></script>
+</head>
+<body style="background-color: #f5faff; font-family: 'Poppins', sans-serif;">
+    <div class="container">
+        <nav class="navbar navbar-light" style="background-color: #e6f0ff;">
+            <a class="navbar-brand font-weight-bold" style="color:#0044cc;">[ TWS Mart ]</a>
+            <form class="form-inline" id="formItem">
+                <input class="form-control mr-sm-2" type="search" placeholder="Cari bias kamu..." id="keyword" aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" id="searchItem">Cari</button>
+            </form>
+            <button class="btn btn-primary" id="cart"><i class="fas fa-shopping-cart"></i>(0)</button>
+        </nav>
+        <div class="row">
+            <div class="row col-md-12 mt-2" id="listBarang"></div>
+        </div>
+    </div>
+
+    <script>
+    var items = [
+        ['001', 'TWS Group', "24/7", 'Full team biar vibes konser selalu ada di rumahmu.', 'https://i.pinimg.com/1200x/94/f5/95/94f595de715aa6f6a680e5b4a75e7887.jpg'],
+        ['002', 'Shinyu', "2003", 'Shinyu shining shimmering splendid, cocok banget.', 'https://i.pinimg.com/1200x/2b/95/e4/2b95e485c0603e619f3e1fc7d4cc773f.jpg'],
+        ['003', 'Dohoon', "2005", 'Dohoon siap nemenin belajar biar fokus terus.', 'https://i.pinimg.com/1200x/d1/71/37/d171376e3af281d2d7ca723754e85323.jpg'],
+        ['004', 'Youngjae', "2005", 'Youngjae sang moodmaker, bikin harimu tambah manis.', 'https://i.pinimg.com/736x/55/90/4f/55904fad8300699db814574d607ccb13.jpg'],
+        ['005', 'Hanjin', "2006", 'Hanjin bikin harimu lebih ceria, no bad vibes.', 'https://i.pinimg.com/736x/01/44/ca/0144ca6673ba1f4304fb483b0cb156c5.jpg'],
+        ['006', 'Jihoon', "2006", 'Jihoon hadir biar nggak kesepian pas scrolling.', 'https://i.pinimg.com/736x/a7/7d/4a/a77d4ac9cea93ed3594b167928446bce.jpg'],
+        ['007', 'Kyungmin', "2007", 'Kyungmin = mood booster instant, no warranty needed.', 'https://i.pinimg.com/736x/bf/13/b1/bf13b1d15872e7d5b47b073934728918.jpg']
+    ];
+
+    let cartCount = 0;
+    const listBarang = document.getElementById("listBarang");
+    const cartButton = document.getElementById("cart");
+
+    function renderItems(data) {
+        listBarang.innerHTML = "";
+        data.forEach((item, index) => {
+            let funnyButton = [
+                "Gaskeun ke keranjang",
+                "Masukin biar nggak kabur",
+                "Bawa pulang sekarang",
+                "Jangan dilepas, claim dulu",
+                "Masukin tas belanja kamu",
+                "Klik aja, jangan ragu",
+                "Aku pilih kamu"
+            ];
+            listBarang.innerHTML += `
+                <div class="col-4 mt-2"> 
+                    <div class="card shadow-sm" style="width: 18rem; border-radius:12px;">
+                        <img src="${item[4]}" class="card-img-top" height="200px" style="object-fit:cover; border-radius:12px 12px 0 0;" alt="${item[1]}">
+                        <div class="card-body">
+                            <h5 class="card-title font-weight-bold" style="color:#003399;">${item[1]}</h5>
+                            <p class="card-text">${item[3]}</p>
+                            <p class="card-text font-weight-bold" style="color:#007bff;">Rp ${item[2]}</p>
+                            <button class="btn btn-primary addCart">${funnyButton[index % funnyButton.length]}</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        document.querySelectorAll(".addCart").forEach(btn => {
+            btn.addEventListener("click", () => {
+                cartCount++;
+                cartButton.innerHTML = `<i class="fas fa-shopping-cart"></i>(${cartCount})`;
+            });
+        });
+    }
+
+    // render awal
+    renderItems(items);
+
+    // event search
+    document.getElementById("formItem").addEventListener("submit", function(e){
+        e.preventDefault();
+        const keyword = document.getElementById("keyword").value.toLowerCase();
+        const filtered = items.filter(item => item[1].toLowerCase().includes(keyword));
+        renderItems(filtered);
+    });
+    </script>
+</body>
+</html>
